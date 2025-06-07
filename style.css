@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 20px;
     color: #333;
+    cursor: url('/static/images/cursor_m1.png'), auto;
 }
 
 .container {
@@ -35,9 +36,11 @@ h1 {
 .filter-section select {
     padding: 8px 12px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     font-size: 1rem;
     cursor: pointer;
+    background-color: #857059;
+    color: #ffffff;
 }
 
 .items-grid {
