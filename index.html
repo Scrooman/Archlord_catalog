@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Przedmiotów</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Katalog Przedmiotów</h1>
+
+        <div class="filter-section">
+            <label for="item-type-filter">Filtruj według rodzaju:</label>
+            <select id="item-type-filter">
+                <option value="Null">Żadne</option>
+            </select>
+        </div>
+
+        <div id="items-container" class="items-grid">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const itemsContainer = document.getElementById('items-container');
+            const itemTypeFilter = document.getElementById('item-type-filter');
+            let itemsData = []; // Tutaj będziemy przechowywać wszystkie wczytane dane
+
+            // Funkcja do wczytywania danych z JSON
+            async function fetchItems() {
+                try {
+                    const response = await fetch('items.json');
+                    if (!response.ok) {
+                        throw new Error(`Błąd HTTP! Status: ${response.status}`);
+                    }
+                    itemsData = await response.json();
+                    populateFilter();
+                    displayItems(itemsData);
+                } catch (error) {
+                    console.error('Nie udało się wczytać danych przedmiotów:', error);
+                    itemsContainer.innerHTML = '<p>Wystąpił błąd podczas ładowania przedmiotów. Spróbuj ponownie później.</p>';
+                }
+            }
+
+            // Funkcja do wypełniania filtra rodzajów
+            function populateFilter() {
+                const uniqueTypes = new Set(itemsData.map(item => item.rodzaj));
+                uniqueTypes.forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type;
+                    itemTypeFilter.appendChild(option);
+                });
+            }
+
+            // Funkcja do wyświetlania przedmiotów
+            function displayItems(itemsToDisplay) {
+                itemsContainer.innerHTML = ''; // Wyczyść kontener przed dodaniem nowych przedmiotów
+                if (itemsToDisplay.length === 0) {
+                    itemsContainer.innerHTML = '<p>Brak przedmiotów do wyświetlenia dla wybranego filtru.</p>';
+                    return;
+                }
+
+                itemsToDisplay.forEach(item => {
+                    const itemTile = document.createElement('div');
+                    itemTile.classList.add('item-tile');
+
+                    itemTile.innerHTML = `
+                        <img src="${item.obrazek}" alt="${item.nazwa}" class="item-image">
+                        <h3 class="item-name">${item.nazwa}</h3>
+                        <p class="item-type">Rodzaj: <span>${item.rodzaj}</span></p>
+                        <p class="item-uniqueness">Unikalność: <span>${item.unikalnosc}</span></p>
+                        <p class="item-description">${item.opis}</p>
+                    `;
+                    itemsContainer.appendChild(itemTile);
+                });
+            }
+
+            // Obsługa zmiany filtra
+            itemTypeFilter.addEventListener('change', (event) => {
+                const selectedType = event.target.value;
+                if (selectedType === 'Null' ) {
+                    const filteredItems = itemsData.filter(item => item.rodzaj === selectedType);
+                    displayItems(filteredItems);
+                } else {
+                    const filteredItems = itemsData.filter(item => item.rodzaj === selectedType);
+                    displayItems(filteredItems);
+                }
+            });
+
+            // Wczytaj przedmioty po załadowaniu strony
+            fetchItems();
+        });
+    </script>
+</body>
+</html>
