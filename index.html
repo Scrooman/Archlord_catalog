@@ -15,7 +15,7 @@
         <div class="filter-section">
             <label for="item-type-filter">Filter results:</label>
             <select id="item-type-filter">
-                <option value="Null">Żadne</option>
+                <option value="All">All</option>
             </select>
         </div>
 
@@ -87,8 +87,8 @@
                     itemTile.innerHTML = `
                         <img src="${item.obrazek}" alt="${item.nazwa}" class="item-image">
                         <h3 class="item-name" style="color: ${getUniquenessColor(item.color)}">${item.nazwa}</h3>
-                        <p class="item-type">Rodzaj: <span>${item.rodzaj}</span></p>
-                        <p class="item-uniqueness">Unikalność: <span>${item.unikalnosc}</span></p>
+                        <p class="item-type">Item type: <span>${item.rodzaj}</span></p>
+                        <p class="item-uniqueness">Rarity: <span>${item.unikalnosc}</span></p>
                         <p class="item-description">${item.opis}</p>
                     `;
                     itemsContainer.appendChild(itemTile);
