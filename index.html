@@ -54,6 +54,22 @@
                 });
             }
 
+            // Funkcja mapująca unikalność na kolor
+            function getUniquenessColor(unikalnosc) {
+                const colorMap = {
+                    1: '#fbe9b9',
+                    2: '#afa87c',
+                    3: '#6bcfff',
+                    4: '#ffffff',
+                    5: '#7344a2',
+                    6: '#ffff00',
+                    7: '#18d0f6',
+                    8: '#00ff00',
+                    9: '#1e90ff'
+                };
+                return colorMap[unikalnosc] || '#ffffff';
+            }
+
             // Funkcja do wyświetlania przedmiotów
             function displayItems(itemsToDisplay) {
                 itemsContainer.innerHTML = ''; // Wyczyść kontener przed dodaniem nowych przedmiotów
@@ -68,7 +84,7 @@
 
                     itemTile.innerHTML = `
                         <img src="${item.obrazek}" alt="${item.nazwa}" class="item-image">
-                        <h3 class="item-name">${item.nazwa}</h3>
+                        <h3 class="item-name" style="color: ${getUniquenessColor(item.unikalnosc)}">${item.nazwa}</h3>
                         <p class="item-type">Rodzaj: <span>${item.rodzaj}</span></p>
                         <p class="item-uniqueness">Unikalność: <span>${item.unikalnosc}</span></p>
                         <p class="item-description">${item.opis}</p>
