@@ -30,7 +30,7 @@
             // Funkcja do wczytywania danych z JSON
             async function fetchItems() {
                 try {
-                    const response = await fetch('items.json');
+                    const response = await fetch('items.JSON');
                     if (!response.ok) {
                         throw new Error(`Błąd HTTP! Status: ${response.status}`);
                     }
