@@ -17,6 +17,9 @@
             <select id="item-type-filter">
                 <option value="All">All</option>
             </select>
+            <!-- Dodane pole wyszukiwania po nazwie -->
+            <input type="text" id="item-name-search" placeholder="Wpisz nazwę przedmiotu">
+            <button id="item-name-search-btn">Search</button>
         </div>
 
         <div id="items-container" class="items-grid">
@@ -27,6 +30,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const itemsContainer = document.getElementById('items-container');
             const itemTypeFilter = document.getElementById('item-type-filter');
+            const itemNameSearch = document.getElementById('item-name-search');
+            const itemNameSearchBtn = document.getElementById('item-name-search-btn');
             let itemsData = []; // Tutaj będziemy przechowywać wszystkie wczytane dane
 
             // Funkcja do wczytywania danych z JSON
@@ -86,7 +91,7 @@
 
                     itemTile.innerHTML = `
                         <img src="${item.obrazek}" alt="${item.nazwa}" class="item-image">
-                        <h3 class="item-name" style="color: ${getUniquenessColor(item.color)}">${item.nazwa}</h3>
+                        <h3 class="item-name" style="color: ${getUniquenessColor(item.unikalnosc)}">${item.nazwa}</h3>
                         <p class="item-type">Item type: <span>${item.rodzaj}</span></p>
                         <p class="item-uniqueness">Rarity: <span>${item.unikalnosc}</span></p>
                         <p class="item-description">${item.opis}</p>
@@ -95,16 +100,26 @@
                 });
             }
 
-            // Obsługa zmiany filtra
+            // Obsługa zmiany filtra typu
             itemTypeFilter.addEventListener('change', (event) => {
                 const selectedType = event.target.value;
-                if (selectedType === 'Null' ) {
-                    const filteredItems = itemsData.filter(item => item.rodzaj === selectedType);
-                    displayItems(filteredItems);
-                } else {
-                    const filteredItems = itemsData.filter(item => item.rodzaj === selectedType);
-                    displayItems(filteredItems);
+                let filteredItems = itemsData;
+                if (selectedType !== 'All') {
+                    filteredItems = filteredItems.filter(item => item.rodzaj === selectedType);
                 }
+                displayItems(filteredItems);
+            });
+
+            // Obsługa wyszukiwania po nazwie
+            itemNameSearchBtn.addEventListener('click', () => {
+                const searchPhrase = itemNameSearch.value.trim().toLowerCase();
+                let filteredItems = itemsData;
+                if (searchPhrase.length > 0) {
+                    filteredItems = filteredItems.filter(item =>
+                        item.nazwa.toLowerCase().includes(searchPhrase)
+                    );
+                }
+                displayItems(filteredItems);
             });
 
             // Wczytaj przedmioty po załadowaniu strony
