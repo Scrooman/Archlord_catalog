@@ -92,6 +92,7 @@
                     itemTile.innerHTML = `
                         <img src="${item.obrazek}" alt="${item.nazwa}" class="item-image">
                         <h3 class="item-name" style="color: ${getUniquenessColor(item.unikalnosc)}">${item.nazwa}</h3>
+                        <p class="item-id">Item Id: <span>${item.itemId}</span></p>
                         <p class="item-type">Item type: <span>${item.rodzaj}</span></p>
                         <p class="item-uniqueness">Rarity: <span>${item.unikalnosc}</span></p>
                         <p class="item-description">${item.opis}</p>
